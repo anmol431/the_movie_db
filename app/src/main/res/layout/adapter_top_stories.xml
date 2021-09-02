@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.themovie.db.app.constants.Constants"/>
+
+        <variable
+            name="isSelected"
+            type="Boolean" />
+
+        <variable
+            name="storyDTO"
+            type="com.themovie.db.app.model.StoryDTO" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_root_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@{isSelected ? @color/selected_item_bg : @color/white}">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="10dp"
+            android:text="@{storyDTO.title}"
+            android:textColor="@{isSelected ? @color/white : @color/black}"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view"
+            tools:text="This is test title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mtv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:textSize="12sp"
+            android:layout_marginBottom="8dp"
+            android:text="@{storyDTO.read.equals(Constants.FALSE) ? @string/unread_text : @string/read_text}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mtv_title"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

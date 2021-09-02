@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">News App</string>
+
+    <string name="top_stories_text">Top Stories</string>
+    <string name="unread_text">(Unread)</string>
+    <string name="read_text">(Read)</string>
+    <string name="exit_text">Press again to exit</string>
+
+</resources>
