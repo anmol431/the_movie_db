@@ -18,13 +18,11 @@ public class SplashActivity extends AppCompatActivity {
         ActivitySplashBinding binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        new Handler().postDelayed(() -> {
-            setScreen();
-            finish();
-        }, DELAY_TIME);
+        new Handler().postDelayed(this::setScreen, DELAY_TIME);
     }
 
     private void setScreen() {
         startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.themovie.db.app.view.adapter.GenreAdapter.OnItemClickListener" />
+
+        <variable
+            name="genresDto"
+            type="com.themovie.db.app.model.GenresDetailsDTO" />
+
+    </data>
+
+   <com.google.android.material.card.MaterialCardView
+       android:id="@+id/cv_root_view"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:theme="@style/Theme.MaterialComponents.Light"
+       android:layout_margin="16dp"
+       android:onClick="@{view -> listener.onGenreClick(genresDto)}"
+       app:cardBackgroundColor="@color/white"
+       app:cardCornerRadius="8dp"
+       app:cardElevation="3dp">
+
+       <androidx.appcompat.widget.AppCompatTextView
+           android:id="@+id/tv_genre_name"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textSize="16sp"
+           android:layout_gravity="center"
+           android:padding="15dp"
+           android:textColor="@color/black"
+           android:text="@{genresDto.name}"
+           tools:text="Action"/>
+
+   </com.google.android.material.card.MaterialCardView>
+
+</layout>

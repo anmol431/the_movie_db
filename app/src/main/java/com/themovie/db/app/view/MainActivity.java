@@ -1,34 +1,33 @@
 package com.themovie.db.app.view;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.themovie.db.app.R;
-import com.themovie.db.app.view.adapter.TopStoriesAdapter;
-import com.themovie.db.app.constants.Constants;
 import com.themovie.db.app.databinding.ActivityMainBinding;
-import com.themovie.db.app.model.StoryDTO;
-import com.themovie.db.app.room.TopStoryDB;
-import com.themovie.db.app.view_model.StoryViewModel;
+import com.themovie.db.app.model.GenresDetailsDTO;
+import com.themovie.db.app.view.adapter.GenreAdapter;
+import com.themovie.db.app.view_model.GenreViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements TopStoriesAdapter.OnItemClickListener {
-    private final ArrayList<StoryDTO> storyArrayList = new ArrayList<>();
-    private final int totalCount = 50; // For showing top 50 stories
-    private ActivityMainBinding binding;
-    private StoryViewModel viewModel;
-    private TopStoriesAdapter adapter;
-    private String url = "";
+public class MainActivity extends AppCompatActivity implements GenreAdapter.OnItemClickListener {
+    private final ArrayList<GenresDetailsDTO> genresDetailsDTOS = new ArrayList<>();
     boolean doubleBackToExit = false;
+    private ActivityMainBinding binding;
+    private GenreViewModel viewModel;
+    private GenreAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,102 +36,74 @@ public class MainActivity extends AppCompatActivity implements TopStoriesAdapter
         binding.setLifecycleOwner(this);
         setContentView(binding.getRoot());
 
-        viewModel = new ViewModelProvider(this).get(StoryViewModel.class);
+        viewModel = new ViewModelProvider(this).get(GenreViewModel.class);
 
-        setUpView();
-        setUpAdapter();
-        // git repo
-        setStoryList();
-    }
-
-    @SuppressLint("SetJavaScriptEnabled")
-    private void setUpView() {
-        binding.wvArticle.setWebViewClient(new MyBrowser());
-        // For store web view data in cache and fetch offline
-        binding.wvArticle.getSettings().setJavaScriptEnabled(true);
-        binding.wvArticle.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        binding.wvArticle.getSettings().setDomStorageEnabled(true);
-        binding.wvArticle.getSettings().setAppCacheEnabled(true);
-
-        binding.srlArticle.setOnRefreshListener(this::setArticleView);
-
-        binding.srlTopStory.setOnRefreshListener(() -> {
-            viewModel.getStories();
-            setObserver();
+        binding.srlGenre.setOnRefreshListener(() -> {
+            viewModel.getPopularMovies(1);
+            binding.srlGenre.setRefreshing(false);
         });
+
+        setUpSpinner();
+        setUpAdapter();
+        setObserver();
     }
 
-    private void setStoryList() {
-        storyArrayList.clear();
-        storyArrayList.addAll(TopStoryDB.getInstance(this).getTopStoryList()); // fetch stories from db
-        binding.srlTopStory.setRefreshing(true);
-        if (storyArrayList.size() > 0) {
-            setTopFiftyStories();
-        } else {
-            viewModel.getStories();
-            setObserver();
-        }
-    }
+    private void setUpSpinner() {
+        List<String> categories = new ArrayList<>();
+        categories.add(getString(R.string.popular_text));
+        categories.add(getString(R.string.now_playing_text));
+        categories.add(getString(R.string.up_coming_text));
+        categories.add(getString(R.string.top_rated_text));
 
-    private void setUpAdapter() { // Top story adapter
-        adapter = new TopStoriesAdapter(storyArrayList, this);
-        binding.rcvStories.setAdapter(adapter);
-    }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, categories);
 
-    @Override
-    public void onStoryClick(StoryDTO storyDTO, int position) {
-        storyDTO.setRead(Constants.TRUE); // maintain "read" status.
-        storyArrayList.set(position, storyDTO);
-        TopStoryDB.getInstance(this).update(storyDTO.getId());
-        adapter.notifyItemChanged(position);
-        url = storyDTO.getUrl();
-        setArticleView();
-    }
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spHeader.setAdapter(dataAdapter);
 
-    private void setArticleView() {
-        binding.srlArticle.setRefreshing(true);
-        binding.wvArticle.loadUrl(url); // load url in web view
-    }
+        binding.spHeader.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+                ((TextView) parent.getChildAt(0)).setTextSize(18);
 
-    private void setObserver() {
-        viewModel.getStoryIdList().observe(this, storyIds -> {
-            if (storyIds.size() > totalCount) {
-                TopStoryDB.getInstance(this).clear();
-                for (int i = 0; i < totalCount; i++) { // fetch only top 50 stories from api
-                    int position = i;
-                    viewModel.getStoryLiveData(storyIds.get(i)).observe(this, story -> {
-                        story.setRead(Constants.FALSE);
-                        TopStoryDB.getInstance(this).insert(story); // insert stories in to db
-                        if (position == (totalCount - 1)) {
-                            storyArrayList.clear();
-                            // getting sorted stories based on "score" from db
-                            storyArrayList.addAll(TopStoryDB.getInstance(this).getTopStoryList());
-                            setTopFiftyStories();
-                        }
-                    });
-                }
+                String category = parent.getItemAtPosition(position).toString();
+                getMovieList(category);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private void setTopFiftyStories() {
-        adapter.notifyDataSetChanged();
-        url = storyArrayList.get(0).getUrl();
-        storyArrayList.get(0).setRead(Constants.TRUE);
-        storyArrayList.set(0, storyArrayList.get(0));
-        adapter.notifyItemChanged(0);
-        TopStoryDB.getInstance(this).update(storyArrayList.get(0).getId());
-        setArticleView();
-        binding.srlTopStory.setRefreshing(false);
+    private void getMovieList(String category) {
+        genresDetailsDTOS.clear();
+        binding.srlGenre.setRefreshing(true);
+        viewModel.getPopularMovies(1);
     }
 
-    private class MyBrowser extends WebViewClient {
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            binding.srlArticle.setRefreshing(false);
-        }
+    private void setUpAdapter() { // Top story adapter
+        adapter = new GenreAdapter(genresDetailsDTOS, this);
+        binding.rcvGenre.setAdapter(adapter);
+    }
+
+    @Override
+    public void onGenreClick(GenresDetailsDTO genresDetailsDTO) {
+
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void setObserver() {
+       /* viewModel.getGenreList().observe(this, genreDTO -> {
+            if (genreDTO != null) {
+                // TopStoryDB.getInstance(this).clear();
+                genresDetailsDTOS.addAll(genreDTO.getGenres());
+                adapter.notifyDataSetChanged();
+                binding.srlGenre.setRefreshing(false);
+            }
+        });*/
     }
 
     @Override

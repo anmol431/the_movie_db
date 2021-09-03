@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TopStoryDB {
-    public static final String TABLE_NAME = Constants.STORY_TABLE;
+    public static final String TABLE_NAME = Constants.GENRE_TABLE;
     public static final String TITLE = "title";
     public static final String DESCENDANTS = "descendants";
     public static final String SCORE = "score";
