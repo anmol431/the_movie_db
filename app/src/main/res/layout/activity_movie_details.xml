@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
-                android:text="@{moviesDTO.getMovieGenres()}"
+                android:text="@{moviesDTO.getMovieGenres(moviesDTO.m_genres)}"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_banner"
                 app:layout_constraintEnd_toStartOf="@id/cv_progress_view"

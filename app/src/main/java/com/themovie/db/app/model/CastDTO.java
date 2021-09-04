@@ -14,16 +14,19 @@ public class CastDTO implements Serializable {
     private int gender;
 
     @SerializedName("known_for_department")
-    private String  known_for_department;
+    private String known_for_department;
 
     @SerializedName("name")
-    private String  name;
+    private String name;
+
+    @SerializedName("movieId")
+    private int movieId;
 
     @SerializedName("character")
-    private String  character;
+    private String character;
 
     @SerializedName("profile_path")
-    private String  profile_path;
+    private String profile_path;
 
     public int getId() {
         return id;
@@ -31,6 +34,14 @@ public class CastDTO implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public int getGender() {
@@ -78,6 +89,7 @@ public class CastDTO implements Serializable {
     public String toString() {
         return "CastDTO{" +
                 "id=" + id +
+                ", movieId=" + movieId +
                 ", gender=" + gender +
                 ", known_for_department='" + known_for_department + '\'' +
                 ", name='" + name + '\'' +

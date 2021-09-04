@@ -68,7 +68,7 @@
             android:id="@+id/tv_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{reviewsDTO.convertServerDateToUi(reviewsDTO.created_at)}"
+            android:text="@{reviewsDTO.convertServerDateToUi(reviewsDTO.review_date)}"
             android:textColor="@color/grey_dark"
             android:textSize="13sp"
             tools:text="Jul 22, 2021"

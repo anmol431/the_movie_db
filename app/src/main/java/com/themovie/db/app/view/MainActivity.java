@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.themovie.db.app.R;
 import com.themovie.db.app.databinding.ActivityMainBinding;
 import com.themovie.db.app.model.MoviesDTO;
+import com.themovie.db.app.room.MovieDB;
 import com.themovie.db.app.view.adapter.MoviesAdapter;
 import com.themovie.db.app.view_model.AllMoviesViewModel;
 
@@ -113,6 +114,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
             }
             setObserver();
         } else {
+            moviesDTOS.clear();
+            moviesDTOS.addAll(MovieDB.getInstance(this).getMovieList(category));
+            if (moviesDTOS.size() > 0) {
+                setUpAdapter(moviesDTOS.size());
+            }
+            binding.srlMovies.setRefreshing(false);
             Toast.makeText(this, getString(R.string.no_network_text), Toast.LENGTH_SHORT).show();
         }
     }
@@ -129,6 +136,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
             if (response != null) {
                 totalPages = response.getTotal_pages();
                 moviesDTOS.addAll(response.getResults());
+                for (MoviesDTO moviesDTO : response.getResults()) {
+                    moviesDTO.setCategory(category);
+                    MovieDB.getInstance(this).insert(moviesDTO);
+                }
                 setUpAdapter(response.getResults().size());
             }
             binding.srlMovies.setRefreshing(false);

@@ -25,7 +25,9 @@ public class GenericController extends SQLiteOpenHelper implements Constants {
     @Override
     public void onCreate(SQLiteDatabase db) {
         database = db;
-        db.execSQL(TopStoryDB.CREATE_STORY_TABLE);
+        db.execSQL(MovieDB.CREATE_MOVIE_TABLE);
+        db.execSQL(MovieDB.CREATE_CAST_TABLE);
+        db.execSQL(MovieDB.CREATE_REVIEW_TABLE);
     }
 
     @Override
@@ -36,13 +38,13 @@ public class GenericController extends SQLiteOpenHelper implements Constants {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TopStoryDB.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MovieDB.TABLE_NAME);
         onCreate(db);
     }
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TopStoryDB.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MovieDB.TABLE_NAME);
         onCreate(db);
     }
 }

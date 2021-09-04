@@ -11,7 +11,11 @@ public interface Constants {
 
     int DB_VERSION = 1;
 
-    String GENRE_TABLE = "genre_table";
+    String MOVIE_TABLE = "movie_table";
+
+    String CAST_TABLE = "cast_table";
+
+    String REVIEW_TABLE = "review_table";
 
     String MOVIE_DETAILS = "movie_details";
 

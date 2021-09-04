@@ -26,8 +26,6 @@ public class MoviesRepository {
         apiRequest.getPopularMovies(API_KEY, page).enqueue(new Callback<ApiResponseDTO>() {
             @Override
             public void onResponse(@NonNull Call<ApiResponseDTO> call, @NonNull Response<ApiResponseDTO> response) {
-                System.out.println("raw : "+response.raw());
-                System.out.println("body : "+response.body());
                 responseDto.postValue(response.body());
             }
 
@@ -44,8 +42,6 @@ public class MoviesRepository {
         apiRequest.getNowPlayingMovies(API_KEY, page).enqueue(new Callback<ApiResponseDTO>() {
             @Override
             public void onResponse(@NonNull Call<ApiResponseDTO> call, @NonNull Response<ApiResponseDTO> response) {
-                System.out.println("raw : "+response.raw());
-                System.out.println("body : "+response.body());
                 responseDto.postValue(response.body());
             }
 
@@ -62,8 +58,6 @@ public class MoviesRepository {
         apiRequest.getUpComingMovies(API_KEY, page).enqueue(new Callback<ApiResponseDTO>() {
             @Override
             public void onResponse(@NonNull Call<ApiResponseDTO> call, @NonNull Response<ApiResponseDTO> response) {
-                System.out.println("raw : "+response.raw());
-                System.out.println("body : "+response.body());
                 responseDto.postValue(response.body());
             }
 
@@ -80,8 +74,6 @@ public class MoviesRepository {
         apiRequest.getTopRatedMovies(API_KEY, page).enqueue(new Callback<ApiResponseDTO>() {
             @Override
             public void onResponse(@NonNull Call<ApiResponseDTO> call, @NonNull Response<ApiResponseDTO> response) {
-                System.out.println("raw : "+response.raw());
-                System.out.println("body : "+response.body());
                 responseDto.postValue(response.body());
             }
 

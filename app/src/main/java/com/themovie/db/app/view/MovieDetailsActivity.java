@@ -16,6 +16,7 @@ import com.themovie.db.app.databinding.ActivityMovieDetailsBinding;
 import com.themovie.db.app.model.CastDTO;
 import com.themovie.db.app.model.MoviesDTO;
 import com.themovie.db.app.model.ReviewsDTO;
+import com.themovie.db.app.room.MovieDB;
 import com.themovie.db.app.view.adapter.CastingAdapter;
 import com.themovie.db.app.view.adapter.ReviewsAdapter;
 import com.themovie.db.app.view_model.MovieDetailsViewModel;
@@ -43,7 +44,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         setUpView();
         setUpListener();
-        setObserver();
     }
 
     private void setUpListener() {
@@ -53,7 +53,19 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private void setUpView() {
         if (isNetworkAvailable()) {
             viewModel.getMoviesData(moviesDTO.getId());
+            setObserver();
         } else {
+            moviesDTO = MovieDB.getInstance(this).getMovie(moviesDTO.getId());
+            if (moviesDTO != null) {
+                binding.setMoviesDTO(moviesDTO);
+            }
+            castDTOS.clear();
+            castDTOS.addAll(MovieDB.getInstance(this).getCastList(moviesDTO.getId()));
+            setCastAdapter();
+
+            reviewsDTO.clear();
+            reviewsDTO.addAll(MovieDB.getInstance(this).getReviewList(moviesDTO.getId()));
+            setReviewAdapter();
             Toast.makeText(this, getString(R.string.no_network_text), Toast.LENGTH_SHORT).show();
         }
     }
@@ -61,6 +73,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private void setObserver() {
         viewModel.getMovieDetails().observe(this, response -> {
             if (response != null) {
+                response.setM_genres(response.getMovieGenres(response.getM_genres()));
+                MovieDB.getInstance(this).insert(response);
                 binding.setMoviesDTO(response);
             }
         });
@@ -69,6 +83,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
             if (credits != null) {
                 castDTOS.clear();
                 castDTOS.addAll(credits.getCast());
+                if (castDTOS.size() > 0) {
+                    for (CastDTO castDTO : castDTOS) {
+                        castDTO.setMovieId(moviesDTO.getId());
+                        MovieDB.getInstance(this).insertCast(castDTO);
+                    }
+                }
                 setCastAdapter();
             }
         });
@@ -77,6 +97,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
             if (reviewsResponse != null) {
                 reviewsDTO.clear();
                 reviewsDTO.addAll(reviewsResponse.getResults());
+                if (reviewsDTO.size() > 0) {
+                    for (ReviewsDTO reviewsDTO : reviewsDTO) {
+                        reviewsDTO.setMovie_id(moviesDTO.getId());
+                        reviewsDTO.setReview_date(reviewsDTO.convertServerDateToUi(reviewsDTO.getReview_date()));
+                        MovieDB.getInstance(this).insertReview(reviewsDTO);
+                    }
+                }
                 binding.setSize(reviewsDTO.size());
                 setReviewAdapter();
             }

@@ -25,6 +25,9 @@ public class MoviesDTO implements Serializable {
     @SerializedName("adult")
     private boolean adult;
 
+    @SerializedName("category")
+    private String category;
+
     @SerializedName("backdrop_path")
     private String backdrop_path;
 
@@ -72,6 +75,25 @@ public class MoviesDTO implements Serializable {
 
     @SerializedName("revenue")
     private long revenue;
+
+    @SerializedName("m_genres")
+    private String m_genres;
+
+    public String getM_genres() {
+        return m_genres;
+    }
+
+    public void setM_genres(String m_genres) {
+        this.m_genres = m_genres;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public int getId() {
         return id;
@@ -234,11 +256,13 @@ public class MoviesDTO implements Serializable {
                 ", video=" + video +
                 ", vote_average=" + vote_average +
                 ", vote_count=" + vote_count +
+                ", category=" + category +
                 ", genre_ids=" + genre_ids +
                 ", genres=" + genres +
                 ", budget=" + budget +
                 ", status=" + status +
                 ", revenue=" + revenue +
+                ", m_genres=" + m_genres +
                 '}';
     }
 
@@ -272,10 +296,10 @@ public class MoviesDTO implements Serializable {
         Glide.with(view.getContext()).load(url).into(view);
     }
 
-    public String getMovieGenres() {
+    public String getMovieGenres(String gnr) {
         StringBuilder sb = new StringBuilder();
         if (getGenres() == null) {
-            return "";
+            return gnr;
         }
         for (GenresDTO genresDTO : getGenres()) {
             sb.append(genresDTO.getName());
