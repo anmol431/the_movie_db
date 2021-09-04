@@ -7,6 +7,10 @@
     <string name="up_coming_text">Upcoming</string>
     <string name="now_playing_text">Now Playing</string>
     <string name="exit_text">Press again to exit</string>
+    <string name="back_text">Back</string>
+    <string name="overview_text">Overview</string>
+    <string name="status_text">Status</string>
+    <string name="language_text">Original Language</string>
 
 
 </resources>

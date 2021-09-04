@@ -43,7 +43,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     }
 
     public interface OnItemClickListener {
-        void onMovieClick(MoviesDTO moviesDTO);
+        void onMovieClick(int id);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

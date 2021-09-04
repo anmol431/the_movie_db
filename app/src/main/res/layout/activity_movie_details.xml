@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="moviesDTO"
+            type="com.themovie.db.app.model.MoviesDTO" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_root_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:elevation="1dp"
+            android:text="@string/back_text"
+            android:textColor="@color/white"
+            app:drawableStartCompat="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_banner"
+            android:layout_width="0dp"
+            android:layout_height="220dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/ic_dummy"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_movie_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            tools:text="The Suicide Squad"
+            app:layout_constraintStart_toStartOf="@id/tv_back"
+            app:layout_constraintBottom_toTopOf="@id/tv_genre"
+            app:layout_constraintEnd_toStartOf="@id/cv_progress_view" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_genre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="Action, Adventure, Fantasy, Comedy"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintStart_toStartOf="@id/tv_back"
+            app:layout_constraintEnd_toStartOf="@id/cv_progress_view"
+            app:layout_constraintBottom_toBottomOf="@id/iv_banner"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_progress_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            app:cardCornerRadius="30dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_banner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_banner">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_progress_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/pb_vote"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/progress_bg"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="@{moviesDTO.getVotes(moviesDTO.vote_average)}"
+                    android:progressDrawable="@drawable/circular_progress_style" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_votes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="@{moviesDTO.getVotes(moviesDTO.vote_average) + `%`}"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/pb_vote"
+                    app:layout_constraintEnd_toEndOf="@id/pb_vote"
+                    app:layout_constraintStart_toStartOf="@id/pb_vote"
+                    app:layout_constraintTop_toTopOf="@id/pb_vote" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_overview_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/overview_text"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_back"
+            app:layout_constraintTop_toBottomOf="@id/cv_progress_view"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_overview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/overview_text"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tv_back"
+            app:layout_constraintEnd_toEndOf="@id/cv_progress_view"
+            app:layout_constraintTop_toBottomOf="@id/tv_overview_label"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_status_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/status_text"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/tv_language_label"
+            app:layout_constraintStart_toStartOf="@id/tv_back"
+            app:layout_constraintTop_toBottomOf="@id/tv_overview"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_language_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/language_text"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/cv_progress_view"
+            app:layout_constraintStart_toEndOf="@id/tv_status_label"
+            app:layout_constraintTop_toBottomOf="@id/tv_overview"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/overview_text"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tv_status_label"
+            app:layout_constraintEnd_toEndOf="@id/tv_status_label"
+            app:layout_constraintTop_toBottomOf="@id/tv_status_label"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_language"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/overview_text"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tv_language_label"
+            app:layout_constraintEnd_toEndOf="@id/tv_language_label"
+            app:layout_constraintTop_toBottomOf="@id/tv_language_label"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_budget_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/status_text"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/tv_language_label"
+            app:layout_constraintStart_toStartOf="@id/tv_back"
+            app:layout_constraintTop_toBottomOf="@id/tv_overview"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:onClick="@{view -> listener.onMovieClick(moviesDTO)}"
+        android:onClick="@{view -> listener.onMovieClick(moviesDTO.id)}"
         android:theme="@style/Theme.MaterialComponents.Light"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"

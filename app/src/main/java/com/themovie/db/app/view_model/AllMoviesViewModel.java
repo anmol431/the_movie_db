@@ -9,12 +9,12 @@ import androidx.lifecycle.LiveData;
 import com.themovie.db.app.model.ApiResponseDTO;
 import com.themovie.db.app.repository.MoviesRepository;
 
-public class GenreViewModel extends AndroidViewModel {
+public class AllMoviesViewModel extends AndroidViewModel {
 
     private final MoviesRepository moviesRepository;
     private LiveData<ApiResponseDTO> popularMoviesResponseDto;
 
-    public GenreViewModel(@NonNull Application application) {
+    public AllMoviesViewModel(@NonNull Application application) {
         super(application);
         moviesRepository = new MoviesRepository();
     }

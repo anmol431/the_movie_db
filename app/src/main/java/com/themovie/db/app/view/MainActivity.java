@@ -17,7 +17,7 @@ import com.themovie.db.app.R;
 import com.themovie.db.app.databinding.ActivityMainBinding;
 import com.themovie.db.app.model.MoviesDTO;
 import com.themovie.db.app.view.adapter.MoviesAdapter;
-import com.themovie.db.app.view_model.GenreViewModel;
+import com.themovie.db.app.view_model.AllMoviesViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     private final ArrayList<MoviesDTO> moviesDTOS = new ArrayList<>();
     boolean doubleBackToExit = false;
     private ActivityMainBinding binding;
-    private GenreViewModel viewModel;
+    private AllMoviesViewModel viewModel;
     private MoviesAdapter adapter;
 
     @Override
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         binding.setLifecycleOwner(this);
         setContentView(binding.getRoot());
 
-        viewModel = new ViewModelProvider(this).get(GenreViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AllMoviesViewModel.class);
 
         binding.srlGenre.setOnRefreshListener(() -> {
             viewModel.getPopularMovies(1);
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     }
 
     @Override
-    public void onMovieClick(MoviesDTO moviesDTO) {
+    public void onMovieClick(int id) {
 
     }
 
