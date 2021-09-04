@@ -4,196 +4,284 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="moviesDTO"
             type="com.themovie.db.app.model.MoviesDTO" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_root_view"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:elevation="1dp"
-            android:text="@string/back_text"
-            android:textColor="@color/white"
-            app:drawableStartCompat="@drawable/ic_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_root_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_banner"
-            android:layout_width="0dp"
-            android:layout_height="220dp"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/ic_dummy"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:elevation="1dp"
+                android:gravity="center"
+                android:text="@string/back_text"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_movie_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            tools:text="The Suicide Squad"
-            app:layout_constraintStart_toStartOf="@id/tv_back"
-            app:layout_constraintBottom_toTopOf="@id/tv_genre"
-            app:layout_constraintEnd_toStartOf="@id/cv_progress_view" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_banner"
+                android:layout_width="0dp"
+                android:layout_height="220dp"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_dummy" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_genre"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            tools:text="Action, Adventure, Fantasy, Comedy"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintStart_toStartOf="@id/tv_back"
-            app:layout_constraintEnd_toStartOf="@id/cv_progress_view"
-            app:layout_constraintBottom_toBottomOf="@id/iv_banner"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_movie_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tv_genre"
+                app:layout_constraintEnd_toStartOf="@id/cv_progress_view"
+                app:layout_constraintStart_toStartOf="@id/tv_back"
+                tools:text="The Suicide Squad" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv_progress_view"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="16dp"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
-            app:cardCornerRadius="30dp"
-            app:layout_constraintBottom_toBottomOf="@id/iv_banner"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_banner">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_genre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_banner"
+                app:layout_constraintEnd_toStartOf="@id/cv_progress_view"
+                app:layout_constraintStart_toStartOf="@id/tv_back"
+                tools:text="Action, Adventure, Fantasy, Comedy" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_progress_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_progress_view"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="@color/colorPrimaryDark"
+                app:cardCornerRadius="30dp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_banner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_banner">
 
-                <ProgressBar
-                    android:id="@+id/pb_vote"
-                    style="?android:attr/progressBarStyleHorizontal"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_progress_container"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/progress_bg"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:progress="@{moviesDTO.getVotes(moviesDTO.vote_average)}"
-                    android:progressDrawable="@drawable/circular_progress_style" />
+                    android:layout_height="match_parent">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_votes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:text="@{moviesDTO.getVotes(moviesDTO.vote_average) + `%`}"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@id/pb_vote"
-                    app:layout_constraintEnd_toEndOf="@id/pb_vote"
-                    app:layout_constraintStart_toStartOf="@id/pb_vote"
-                    app:layout_constraintTop_toTopOf="@id/pb_vote" />
+                    <ProgressBar
+                        android:id="@+id/pb_vote"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/progress_bg"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="@{moviesDTO.getVotes(moviesDTO.vote_average)}"
+                        android:progressDrawable="@drawable/circular_progress_style" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_votes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{moviesDTO.getVotes(moviesDTO.vote_average) + `%`}"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@id/pb_vote"
+                        app:layout_constraintEnd_toEndOf="@id/pb_vote"
+                        app:layout_constraintStart_toStartOf="@id/pb_vote"
+                        app:layout_constraintTop_toTopOf="@id/pb_vote" />
 
-        </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_overview_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/overview_text"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/tv_back"
-            app:layout_constraintTop_toBottomOf="@id/cv_progress_view"/>
+            </com.google.android.material.card.MaterialCardView>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_overview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/overview_text"
-            android:textColor="@color/white"
-            android:layout_marginTop="5dp"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/tv_back"
-            app:layout_constraintEnd_toEndOf="@id/cv_progress_view"
-            app:layout_constraintTop_toBottomOf="@id/tv_overview_label"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_overview_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/overview_text"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_back"
+                app:layout_constraintTop_toBottomOf="@id/cv_progress_view" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_status_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/status_text"
-            android:textColor="@color/white"
-            android:layout_marginTop="20dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/tv_language_label"
-            app:layout_constraintStart_toStartOf="@id/tv_back"
-            app:layout_constraintTop_toBottomOf="@id/tv_overview"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_overview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/overview_text"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/cv_progress_view"
+                app:layout_constraintStart_toStartOf="@id/tv_back"
+                app:layout_constraintTop_toBottomOf="@id/tv_overview_label" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_language_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/language_text"
-            android:textColor="@color/white"
-            android:layout_marginTop="20dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/cv_progress_view"
-            app:layout_constraintStart_toEndOf="@id/tv_status_label"
-            app:layout_constraintTop_toBottomOf="@id/tv_overview"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_status_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/status_text"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/tv_language_label"
+                app:layout_constraintStart_toStartOf="@id/tv_back"
+                app:layout_constraintTop_toBottomOf="@id/tv_overview" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_status"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/overview_text"
-            android:textColor="@color/white"
-            android:layout_marginTop="5dp"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/tv_status_label"
-            app:layout_constraintEnd_toEndOf="@id/tv_status_label"
-            app:layout_constraintTop_toBottomOf="@id/tv_status_label"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_language_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/language_text"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/cv_progress_view"
+                app:layout_constraintStart_toEndOf="@id/tv_status_label"
+                app:layout_constraintTop_toBottomOf="@id/tv_overview" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_language"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/overview_text"
-            android:textColor="@color/white"
-            android:layout_marginTop="5dp"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/tv_language_label"
-            app:layout_constraintEnd_toEndOf="@id/tv_language_label"
-            app:layout_constraintTop_toBottomOf="@id/tv_language_label"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/overview_text"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/tv_status_label"
+                app:layout_constraintStart_toStartOf="@id/tv_status_label"
+                app:layout_constraintTop_toBottomOf="@id/tv_status_label" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_budget_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/status_text"
-            android:textColor="@color/white"
-            android:layout_marginTop="20dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/tv_language_label"
-            app:layout_constraintStart_toStartOf="@id/tv_back"
-            app:layout_constraintTop_toBottomOf="@id/tv_overview"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_language"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/overview_text"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/tv_language_label"
+                app:layout_constraintStart_toStartOf="@id/tv_language_label"
+                app:layout_constraintTop_toBottomOf="@id/tv_language_label" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_budget_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/budget_text"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/tv_language_label"
+                app:layout_constraintStart_toStartOf="@id/tv_back"
+                app:layout_constraintTop_toBottomOf="@id/tv_language" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_budget"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/overview_text"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/tv_budget_label"
+                app:layout_constraintStart_toStartOf="@id/tv_budget_label"
+                app:layout_constraintTop_toBottomOf="@id/tv_budget_label" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_revenue_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/revenue_text"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/cv_progress_view"
+                app:layout_constraintStart_toEndOf="@id/tv_budget_label"
+                app:layout_constraintTop_toBottomOf="@id/tv_language" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_revenue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/overview_text"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/tv_revenue_label"
+                app:layout_constraintStart_toStartOf="@id/tv_revenue_label"
+                app:layout_constraintTop_toBottomOf="@id/tv_revenue_label" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_cast_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/top_cast_text"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_back"
+                app:layout_constraintTop_toBottomOf="@id/tv_revenue" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_cast"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_cast_label" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_review_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/reviews_text"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_back"
+                app:layout_constraintTop_toBottomOf="@id/rcv_cast" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_reviews"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_review_label" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </layout>
