@@ -1,9 +1,8 @@
 package com.themovie.db.app.view;
 
+import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
 import static com.themovie.db.app.constants.Constants.MOVIE_DETAILS;
 
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,8 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.themovie.db.app.R;
 import com.themovie.db.app.databinding.ActivityMainBinding;
@@ -31,7 +34,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     boolean doubleBackToExit = false;
     private ActivityMainBinding binding;
     private AllMoviesViewModel viewModel;
-    private MoviesAdapter adapter;
+    private int currentPage = 1;
+    private int totalPages;
+    private String category;
+    private boolean mIsLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +48,18 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
 
         viewModel = new ViewModelProvider(this).get(AllMoviesViewModel.class);
 
-        binding.srlGenre.setOnRefreshListener(() -> {
-            viewModel.getPopularMovies(1);
-            binding.srlGenre.setRefreshing(false);
+        binding.srlMovies.setOnRefreshListener(() -> {
+            moviesDTOS.clear();
+            binding.rcvMovies.setAdapter(null);
+            currentPage = 1;
+            getMovieList();
         });
 
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        binding.rcvMovies.setLayoutManager(layoutManager);
+        binding.rcvMovies.addOnScrollListener(onScrollLoadList(layoutManager));
+
         setUpSpinner();
-        setUpAdapter();
     }
 
     private void setUpSpinner() {
@@ -70,8 +81,11 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
                 ((TextView) parent.getChildAt(0)).setTextSize(18);
 
-                String category = parent.getItemAtPosition(position).toString();
-                getMovieList(category);
+                moviesDTOS.clear();
+                binding.rcvMovies.setAdapter(null);
+                category = parent.getItemAtPosition(position).toString();
+                currentPage = 1;
+                getMovieList();
             }
 
             @Override
@@ -81,17 +95,20 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         });
     }
 
-    private void getMovieList(String category) {
-        moviesDTOS.clear();
-        binding.srlGenre.setRefreshing(true);
-        viewModel.getPopularMovies(1);
+    private void getMovieList() {
+        binding.srlMovies.setRefreshing(true);
+
+        if (category.equals(getString(R.string.popular_text))) {
+            viewModel.getPopularMovies(currentPage);
+        } else if (category.equals(getString(R.string.now_playing_text))) {
+            viewModel.getNowPlayingMovies(currentPage);
+        } else if (category.equals(getString(R.string.up_coming_text))) {
+            viewModel.getUpcomingMovies(currentPage);
+        } else if (category.equals(getString(R.string.top_rated_text))) {
+            viewModel.getTopRatedMovies(currentPage);
+        }
 
         setObserver();
-    }
-
-    private void setUpAdapter() { // Top story adapter
-        adapter = new MoviesAdapter(moviesDTOS, this);
-        binding.rcvGenre.setAdapter(adapter);
     }
 
     @Override
@@ -101,15 +118,53 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         startActivity(intent);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void setObserver() {
         viewModel.getPopularMovieList().observe(this, response -> {
             if (response != null) {
+                totalPages = response.getTotal_pages();
                 moviesDTOS.addAll(response.getResults());
-                adapter.notifyDataSetChanged();
-                binding.srlGenre.setRefreshing(false);
+                setUpAdapter(response.getResults().size());
             }
+            binding.srlMovies.setRefreshing(false);
         });
+    }
+
+    private void setUpAdapter(int size) {
+        MoviesAdapter adapter = new MoviesAdapter(moviesDTOS, this);
+        binding.rcvMovies.setAdapter(adapter);
+        binding.rcvMovies.scrollToPosition(moviesDTOS.size() - size);
+        mIsLoading = false;
+    }
+
+    private RecyclerView.OnScrollListener onScrollLoadList(final LinearLayoutManager mLayoutManager) {
+        return new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 20) {
+                    int visibleItemCount = mLayoutManager.getChildCount();
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (!mIsLoading) {
+                        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                                && firstVisibleItemPosition >= 0
+                                && totalItemCount > PAGE_SIZE) {
+                            if (totalPages > currentPage) {
+                                currentPage++;
+                                mIsLoading = true;
+                                getMovieList();
+                            }
+                        }
+                    }
+                }
+            }
+        };
     }
 
     @Override

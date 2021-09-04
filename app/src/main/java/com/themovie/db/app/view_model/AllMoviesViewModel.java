@@ -20,7 +20,19 @@ public class AllMoviesViewModel extends AndroidViewModel {
     }
 
     public void getPopularMovies(int page) {
-        popularMoviesResponseDto = moviesRepository.getPopularMovies(page); // fetch genre from server
+        popularMoviesResponseDto = moviesRepository.getPopularMovies(page);
+    }
+
+    public void getNowPlayingMovies(int page) {
+        popularMoviesResponseDto = moviesRepository.getNowPlayingMovies(page);
+    }
+
+    public void getUpcomingMovies(int page) {
+        popularMoviesResponseDto = moviesRepository.getUpComingMovies(page);
+    }
+
+    public void getTopRatedMovies(int page) {
+        popularMoviesResponseDto = moviesRepository.getTopRatedMovies(page);
     }
 
     public LiveData<ApiResponseDTO> getPopularMovieList() {

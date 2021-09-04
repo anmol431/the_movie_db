@@ -68,6 +68,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             if (reviewsResponse != null) {
                 reviewsDTO.clear();
                 reviewsDTO.addAll(reviewsResponse.getResults());
+                binding.setSize(reviewsDTO.size());
                 setReviewAdapter();
             }
         });

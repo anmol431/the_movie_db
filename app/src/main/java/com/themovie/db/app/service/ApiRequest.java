@@ -4,7 +4,6 @@ import com.themovie.db.app.model.ApiResponseDTO;
 import com.themovie.db.app.model.CreditsDTO;
 import com.themovie.db.app.model.MoviesDTO;
 import com.themovie.db.app.model.ReviewsBaseDTO;
-import com.themovie.db.app.model.StoryDTO;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -15,6 +14,15 @@ public interface ApiRequest {
 
     @GET("movie/popular")
     Call<ApiResponseDTO> getPopularMovies(@Query("api_key") String api_key, @Query("page") int page);
+
+    @GET("movie/now_playing")
+    Call<ApiResponseDTO> getNowPlayingMovies(@Query("api_key") String api_key, @Query("page") int page);
+
+    @GET("movie/top_rated")
+    Call<ApiResponseDTO> getTopRatedMovies(@Query("api_key") String api_key, @Query("page") int page);
+
+    @GET("movie/upcoming")
+    Call<ApiResponseDTO> getUpComingMovies(@Query("api_key") String api_key, @Query("page") int page);
 
     @GET("movie/{movie_id}")
     Call<MoviesDTO> getMovieDetails(@Path("movie_id") int movie_id, @Query("api_key") String api_key);

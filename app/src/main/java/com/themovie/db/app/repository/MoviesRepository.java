@@ -38,4 +38,58 @@ public class MoviesRepository {
         });
         return responseDto;
     }
+
+    public MutableLiveData<ApiResponseDTO> getNowPlayingMovies(int page) {
+        final MutableLiveData<ApiResponseDTO> responseDto = new MutableLiveData<>();
+        apiRequest.getNowPlayingMovies(API_KEY, page).enqueue(new Callback<ApiResponseDTO>() {
+            @Override
+            public void onResponse(@NonNull Call<ApiResponseDTO> call, @NonNull Response<ApiResponseDTO> response) {
+                System.out.println("raw : "+response.raw());
+                System.out.println("body : "+response.body());
+                responseDto.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ApiResponseDTO> call, @NonNull Throwable t) {
+                responseDto.postValue(null);
+            }
+        });
+        return responseDto;
+    }
+
+    public MutableLiveData<ApiResponseDTO> getUpComingMovies(int page) {
+        final MutableLiveData<ApiResponseDTO> responseDto = new MutableLiveData<>();
+        apiRequest.getUpComingMovies(API_KEY, page).enqueue(new Callback<ApiResponseDTO>() {
+            @Override
+            public void onResponse(@NonNull Call<ApiResponseDTO> call, @NonNull Response<ApiResponseDTO> response) {
+                System.out.println("raw : "+response.raw());
+                System.out.println("body : "+response.body());
+                responseDto.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ApiResponseDTO> call, @NonNull Throwable t) {
+                responseDto.postValue(null);
+            }
+        });
+        return responseDto;
+    }
+
+    public MutableLiveData<ApiResponseDTO> getTopRatedMovies(int page) {
+        final MutableLiveData<ApiResponseDTO> responseDto = new MutableLiveData<>();
+        apiRequest.getTopRatedMovies(API_KEY, page).enqueue(new Callback<ApiResponseDTO>() {
+            @Override
+            public void onResponse(@NonNull Call<ApiResponseDTO> call, @NonNull Response<ApiResponseDTO> response) {
+                System.out.println("raw : "+response.raw());
+                System.out.println("body : "+response.body());
+                responseDto.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ApiResponseDTO> call, @NonNull Throwable t) {
+                responseDto.postValue(null);
+            }
+        });
+        return responseDto;
+    }
 }
