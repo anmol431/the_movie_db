@@ -9,8 +9,10 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_movie_details.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/adapter_casting.xml" value="0.161231884057971" />
         <entry key="app/src/main/res/layout/adapter_genre.xml" value="0.25" />
         <entry key="app/src/main/res/layout/adapter_movies.xml" value="0.17844202898550723" />
+        <entry key="app/src/main/res/layout/adapter_reviews.xml" value="0.161231884057971" />
         <entry key="app/src/main/res/layout/adapter_top_stories.xml" value="0.17844202898550723" />
       </map>
     </option>

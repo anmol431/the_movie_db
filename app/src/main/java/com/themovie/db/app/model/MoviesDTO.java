@@ -60,6 +60,18 @@ public class MoviesDTO implements Serializable {
     @SerializedName("genre_ids")
     private ArrayList<Integer> genre_ids;
 
+    @SerializedName("genres")
+    private ArrayList<GenresDTO> genres;
+
+    @SerializedName("budget")
+    private double budget;
+
+    @SerializedName("status")
+    private String status;
+
+    @SerializedName("revenue")
+    private double revenue;
+
     public int getId() {
         return id;
     }
@@ -172,6 +184,38 @@ public class MoviesDTO implements Serializable {
         this.genre_ids = genre_ids;
     }
 
+    public ArrayList<GenresDTO> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<GenresDTO> genres) {
+        this.genres = genres;
+    }
+
+    public double getBudget() {
+        return budget;
+    }
+
+    public void setBudget(double budget) {
+        this.budget = budget;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public double getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(double revenue) {
+        this.revenue = revenue;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -190,6 +234,10 @@ public class MoviesDTO implements Serializable {
                 ", vote_average=" + vote_average +
                 ", vote_count=" + vote_count +
                 ", genre_ids=" + genre_ids +
+                ", genres=" + genres +
+                ", budget=" + budget +
+                ", status=" + status +
+                ", revenue=" + revenue +
                 '}';
     }
 
@@ -222,4 +270,17 @@ public class MoviesDTO implements Serializable {
         String url = IMAGE_URL + imageUrl;
         Glide.with(view.getContext()).load(url).into(view);
     }
+
+    public String getMovieGenres() {
+        StringBuilder sb = new StringBuilder();
+        if (getGenres() == null) {
+            return "";
+        }
+        for (GenresDTO genresDTO : getGenres()) {
+            sb.append(genresDTO.getName());
+            sb.append(", ");
+        }
+        return "● "+ sb.substring(0, sb.length() - 2);
+    }
+
 }

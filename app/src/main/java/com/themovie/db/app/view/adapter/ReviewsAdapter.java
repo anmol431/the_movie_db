@@ -6,48 +6,41 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.themovie.db.app.databinding.AdapterMoviesBinding;
-import com.themovie.db.app.model.MoviesDTO;
+import com.themovie.db.app.databinding.AdapterReviewsBinding;
+import com.themovie.db.app.model.ReviewsDTO;
 
 import java.util.ArrayList;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
-    ArrayList<MoviesDTO> moviesDTOS;
-    OnItemClickListener listener;
+public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
+    ArrayList<ReviewsDTO> reviewsDTOS;
 
-    public MoviesAdapter(ArrayList<MoviesDTO> list, OnItemClickListener clickListener) {
-        this.moviesDTOS = list;
-        this.listener = clickListener;
+    public ReviewsAdapter(ArrayList<ReviewsDTO> list) {
+        this.reviewsDTOS = list;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        AdapterMoviesBinding binding = AdapterMoviesBinding
+        AdapterReviewsBinding binding = AdapterReviewsBinding
                 .inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false);
         return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding.setMoviesDTO(moviesDTOS.get(position));
-        holder.binding.setListener(listener);
+        holder.binding.setReviewsDTO(reviewsDTOS.get(position));
         holder.binding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return moviesDTOS.size();
-    }
-
-    public interface OnItemClickListener {
-        void onMovieClick(MoviesDTO moviesDTO);
+        return reviewsDTOS.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public AdapterMoviesBinding binding;
+        public AdapterReviewsBinding binding;
 
-        public ViewHolder(AdapterMoviesBinding itemRowBinding) {
+        public ViewHolder(AdapterReviewsBinding itemRowBinding) {
             super(itemRowBinding.getRoot());
             this.binding = itemRowBinding;
         }

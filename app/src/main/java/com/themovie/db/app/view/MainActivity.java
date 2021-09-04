@@ -1,6 +1,10 @@
 package com.themovie.db.app.view;
 
+import static com.themovie.db.app.constants.Constants.MOVIE_DETAILS;
+
+
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,8 +49,6 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
 
         setUpSpinner();
         setUpAdapter();
-
-      //  new Handler().postDelayed(this::setObserver, 100);
     }
 
     private void setUpSpinner() {
@@ -93,8 +95,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     }
 
     @Override
-    public void onMovieClick(int id) {
-
+    public void onMovieClick(MoviesDTO moviesDTO) {
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+        intent.putExtra(MOVIE_DETAILS, moviesDTO);
+        startActivity(intent);
     }
 
     @SuppressLint("NotifyDataSetChanged")

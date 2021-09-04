@@ -13,7 +13,7 @@ public interface Constants {
 
     String GENRE_TABLE = "genre_table";
 
-    String FALSE = "false";
+    String MOVIE_DETAILS = "movie_details";
 
     String TRUE = "true";
 

@@ -1,6 +1,9 @@
 package com.themovie.db.app.service;
 
 import com.themovie.db.app.model.ApiResponseDTO;
+import com.themovie.db.app.model.CreditsDTO;
+import com.themovie.db.app.model.MoviesDTO;
+import com.themovie.db.app.model.ReviewsBaseDTO;
 import com.themovie.db.app.model.StoryDTO;
 
 import retrofit2.Call;
@@ -12,5 +15,15 @@ public interface ApiRequest {
 
     @GET("movie/popular")
     Call<ApiResponseDTO> getPopularMovies(@Query("api_key") String api_key, @Query("page") int page);
+
+    @GET("movie/{movie_id}")
+    Call<MoviesDTO> getMovieDetails(@Path("movie_id") int movie_id, @Query("api_key") String api_key);
+
+    @GET("movie/{movie_id}/credits?")
+    Call<CreditsDTO> getCast(@Path("movie_id") int movie_id, @Query("api_key") String api_key);
+
+    @GET("movie/{movie_id}/reviews?")
+    Call<ReviewsBaseDTO> getReviews(@Path("movie_id") int movie_id, @Query("api_key") String api_key,
+                                    @Query("page") int page);
 
 }
