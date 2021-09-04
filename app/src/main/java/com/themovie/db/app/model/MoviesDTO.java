@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,13 +65,13 @@ public class MoviesDTO implements Serializable {
     private ArrayList<GenresDTO> genres;
 
     @SerializedName("budget")
-    private double budget;
+    private long budget;
 
     @SerializedName("status")
     private String status;
 
     @SerializedName("revenue")
-    private double revenue;
+    private long revenue;
 
     public int getId() {
         return id;
@@ -192,11 +193,11 @@ public class MoviesDTO implements Serializable {
         this.genres = genres;
     }
 
-    public double getBudget() {
+    public long getBudget() {
         return budget;
     }
 
-    public void setBudget(double budget) {
+    public void setBudget(long budget) {
         this.budget = budget;
     }
 
@@ -208,11 +209,11 @@ public class MoviesDTO implements Serializable {
         this.status = status;
     }
 
-    public double getRevenue() {
+    public long getRevenue() {
         return revenue;
     }
 
-    public void setRevenue(double revenue) {
+    public void setRevenue(long revenue) {
         this.revenue = revenue;
     }
 
@@ -281,6 +282,11 @@ public class MoviesDTO implements Serializable {
             sb.append(", ");
         }
         return "● "+ sb.substring(0, sb.length() - 2);
+    }
+
+    public String getValues(long value) {
+        DecimalFormat formatter = new DecimalFormat("#,###,###.00");
+        return formatter.format(value);
     }
 
 }
