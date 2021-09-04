@@ -15,19 +15,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.themovie.db.app.R;
 import com.themovie.db.app.databinding.ActivityMainBinding;
-import com.themovie.db.app.model.GenresDetailsDTO;
-import com.themovie.db.app.view.adapter.GenreAdapter;
+import com.themovie.db.app.model.MoviesDTO;
+import com.themovie.db.app.view.adapter.MoviesAdapter;
 import com.themovie.db.app.view_model.GenreViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements GenreAdapter.OnItemClickListener {
-    private final ArrayList<GenresDetailsDTO> genresDetailsDTOS = new ArrayList<>();
+public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnItemClickListener {
+    private final ArrayList<MoviesDTO> moviesDTOS = new ArrayList<>();
     boolean doubleBackToExit = false;
     private ActivityMainBinding binding;
     private GenreViewModel viewModel;
-    private GenreAdapter adapter;
+    private MoviesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.OnIt
 
         setUpSpinner();
         setUpAdapter();
-        setObserver();
+
+      //  new Handler().postDelayed(this::setObserver, 100);
     }
 
     private void setUpSpinner() {
@@ -79,31 +80,32 @@ public class MainActivity extends AppCompatActivity implements GenreAdapter.OnIt
     }
 
     private void getMovieList(String category) {
-        genresDetailsDTOS.clear();
+        moviesDTOS.clear();
         binding.srlGenre.setRefreshing(true);
         viewModel.getPopularMovies(1);
+
+        setObserver();
     }
 
     private void setUpAdapter() { // Top story adapter
-        adapter = new GenreAdapter(genresDetailsDTOS, this);
+        adapter = new MoviesAdapter(moviesDTOS, this);
         binding.rcvGenre.setAdapter(adapter);
     }
 
     @Override
-    public void onGenreClick(GenresDetailsDTO genresDetailsDTO) {
+    public void onMovieClick(MoviesDTO moviesDTO) {
 
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void setObserver() {
-       /* viewModel.getGenreList().observe(this, genreDTO -> {
-            if (genreDTO != null) {
-                // TopStoryDB.getInstance(this).clear();
-                genresDetailsDTOS.addAll(genreDTO.getGenres());
+        viewModel.getPopularMovieList().observe(this, response -> {
+            if (response != null) {
+                moviesDTOS.addAll(response.getResults());
                 adapter.notifyDataSetChanged();
                 binding.srlGenre.setRefreshing(false);
             }
-        });*/
+        });
     }
 
     @Override

@@ -7,24 +7,24 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.themovie.db.app.databinding.AdapterGenreBinding;
-import com.themovie.db.app.model.GenresDetailsDTO;
+import com.themovie.db.app.databinding.AdapterMoviesBinding;
+import com.themovie.db.app.model.MoviesDTO;
 
 import java.util.ArrayList;
 
-public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
-    ArrayList<GenresDetailsDTO> genresDetailsDTOS;
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
+    ArrayList<MoviesDTO> moviesDTOS;
     OnItemClickListener listener;
 
-    public GenreAdapter(ArrayList<GenresDetailsDTO> list, OnItemClickListener clickListener) {
-        this.genresDetailsDTOS = list;
+    public MoviesAdapter(ArrayList<MoviesDTO> list, OnItemClickListener clickListener) {
+        this.moviesDTOS = list;
         this.listener = clickListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        AdapterGenreBinding binding = AdapterGenreBinding
+        AdapterMoviesBinding binding = AdapterMoviesBinding
                 .inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false);
         return new ViewHolder(binding);
     }
@@ -32,24 +32,24 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding.setGenresDto(genresDetailsDTOS.get(position));
+        holder.binding.setMoviesDTO(moviesDTOS.get(position));
         holder.binding.setListener(listener);
         holder.binding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return genresDetailsDTOS.size();
+        return moviesDTOS.size();
     }
 
     public interface OnItemClickListener {
-        void onGenreClick(GenresDetailsDTO genresDetailsDTO);
+        void onMovieClick(MoviesDTO moviesDTO);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public AdapterGenreBinding binding;
+        public AdapterMoviesBinding binding;
 
-        public ViewHolder(AdapterGenreBinding itemRowBinding) {
+        public ViewHolder(AdapterMoviesBinding itemRowBinding) {
             super(itemRowBinding.getRoot());
             this.binding = itemRowBinding;
         }

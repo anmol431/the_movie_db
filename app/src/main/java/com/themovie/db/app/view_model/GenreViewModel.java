@@ -6,24 +6,24 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.themovie.db.app.model.GenreDTO;
-import com.themovie.db.app.repository.GenreRepository;
+import com.themovie.db.app.model.ApiResponseDTO;
+import com.themovie.db.app.repository.MoviesRepository;
 
 public class GenreViewModel extends AndroidViewModel {
 
-    private final GenreRepository genreRepository;
-    private LiveData<GenreDTO> genreDTOLiveData;
+    private final MoviesRepository moviesRepository;
+    private LiveData<ApiResponseDTO> popularMoviesResponseDto;
 
     public GenreViewModel(@NonNull Application application) {
         super(application);
-        genreRepository = new GenreRepository();
+        moviesRepository = new MoviesRepository();
     }
 
     public void getPopularMovies(int page) {
-        genreDTOLiveData = genreRepository.getPopularMovies(page); // fetch genre from server
+        popularMoviesResponseDto = moviesRepository.getPopularMovies(page); // fetch genre from server
     }
 
-    public LiveData<GenreDTO> getGenreList() {
-        return genreDTOLiveData;
+    public LiveData<ApiResponseDTO> getPopularMovieList() {
+        return popularMoviesResponseDto;
     }
 }
