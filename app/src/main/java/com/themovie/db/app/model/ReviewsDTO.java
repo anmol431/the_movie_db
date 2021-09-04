@@ -1,7 +1,13 @@
 package com.themovie.db.app.model;
 
-import androidx.annotation.NonNull;
+import static com.themovie.db.app.constants.Constants.IMAGE_URL;
 
+import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.BindingAdapter;
+
+import com.bumptech.glide.Glide;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -67,23 +73,25 @@ public class ReviewsDTO implements Serializable {
                 '}';
     }
 
-    public String convertServerDateToUi(String requestedDate) {
-        String SERVER_FORMAT = "yyyy-MM-dd";
+    public String convertServerDateToUi(Timestamp requestedDate) {
         String UI_FORMAT = "MMM dd, yyyy";
         if (requestedDate == null) {
             return "-";
         }
-        SimpleDateFormat sourceFormat = new SimpleDateFormat(SERVER_FORMAT, Locale.getDefault());
-        SimpleDateFormat destFormat = new SimpleDateFormat(UI_FORMAT, Locale.getDefault());
-        Date date = null;
-        try {
-            date = sourceFormat.parse(requestedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(UI_FORMAT, Locale.getDefault());
+        return simpleDateFormat.format(requestedDate);
+    }
+
+    @BindingAdapter({"avatar"})
+    public static void loadAvatar(ImageView view, String imageUrl) {
+        String url = "";
+        if (imageUrl != null) {
+            if (imageUrl.startsWith("/https")) {
+                url = imageUrl.replaceFirst("/", "");
+            } else {
+                url = IMAGE_URL + imageUrl;
+            }
+            Glide.with(view.getContext()).load(url).circleCrop().into(view);
         }
-        if (date != null) {
-            return destFormat.format(date);
-        }
-        return requestedDate;
     }
 }

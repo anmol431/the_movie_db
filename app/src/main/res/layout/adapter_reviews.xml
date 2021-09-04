@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="reviewsDTO"
@@ -14,13 +16,37 @@
         android:id="@+id/cl_main_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_marginVertical="15dp"
+        android:layout_marginHorizontal="10dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_name"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="0dp"
+            android:visibility="@{reviewsDTO.author_details.avatar_path == null ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_initial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:text="@{reviewsDTO.author_details.username.substring(0, 1)}"/>
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:imageUrl="@{reviewsDTO.author_details.avatar_path}"
+            android:visibility="@{reviewsDTO.author_details.avatar_path == null ? View.INVISIBLE : View.VISIBLE}"
+            app:avatar="@{reviewsDTO.author_details.avatar_path}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,11 +54,12 @@
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginStart="15dp"
             android:text="@{reviewsDTO.author_details.username}"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
+            tools:text="Anmol Rathore"
             app:layout_constraintBottom_toTopOf="@id/tv_date"
             app:layout_constraintStart_toEndOf="@id/iv_profile"
             app:layout_constraintTop_toTopOf="@id/iv_profile" />
@@ -41,15 +68,41 @@
             android:id="@+id/tv_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
             android:text="@{reviewsDTO.convertServerDateToUi(reviewsDTO.created_at)}"
             android:textColor="@color/grey_dark"
-            android:textSize="14sp"
+            android:textSize="13sp"
+            tools:text="Jul 22, 2021"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_username"
             app:layout_constraintTop_toBottomOf="@id/tv_username" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_rating_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_username"
+            app:layout_constraintTop_toTopOf="@id/tv_username"
+            app:layout_constraintStart_toEndOf="@id/tv_username">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(reviewsDTO.author_details.rating)}"
+                android:gravity="center"
+                android:drawablePadding="5dp"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="3dp"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                app:drawableStartCompat="@drawable/ic_rate"/>
+
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
