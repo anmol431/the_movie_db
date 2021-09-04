@@ -2,11 +2,16 @@ package com.themovie.db.app.view;
 
 import static com.themovie.db.app.constants.Constants.MOVIE_DETAILS;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.themovie.db.app.R;
 import com.themovie.db.app.databinding.ActivityMovieDetailsBinding;
 import com.themovie.db.app.model.CastDTO;
 import com.themovie.db.app.model.MoviesDTO;
@@ -46,7 +51,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void setUpView() {
-        viewModel.getMoviesData(moviesDTO.getId());
+        if (isNetworkAvailable()) {
+            viewModel.getMoviesData(moviesDTO.getId());
+        } else {
+            Toast.makeText(this, getString(R.string.no_network_text), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setObserver() {
@@ -82,5 +91,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private void setReviewAdapter() {
         ReviewsAdapter reviewsAdapter = new ReviewsAdapter(reviewsDTO);
         binding.rcvReviews.setAdapter(reviewsAdapter);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

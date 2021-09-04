@@ -15,7 +15,6 @@ public interface Constants {
 
     String MOVIE_DETAILS = "movie_details";
 
-    String TRUE = "true";
 
 
 }

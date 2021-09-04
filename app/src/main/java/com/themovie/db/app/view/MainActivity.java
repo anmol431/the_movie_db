@@ -3,8 +3,11 @@ package com.themovie.db.app.view;
 import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
 import static com.themovie.db.app.constants.Constants.MOVIE_DETAILS;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -96,19 +99,22 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     }
 
     private void getMovieList() {
-        binding.srlMovies.setRefreshing(true);
+        if (isNetworkAvailable()) {
+            binding.srlMovies.setRefreshing(true);
 
-        if (category.equals(getString(R.string.popular_text))) {
-            viewModel.getPopularMovies(currentPage);
-        } else if (category.equals(getString(R.string.now_playing_text))) {
-            viewModel.getNowPlayingMovies(currentPage);
-        } else if (category.equals(getString(R.string.up_coming_text))) {
-            viewModel.getUpcomingMovies(currentPage);
-        } else if (category.equals(getString(R.string.top_rated_text))) {
-            viewModel.getTopRatedMovies(currentPage);
+            if (category.equals(getString(R.string.popular_text))) {
+                viewModel.getPopularMovies(currentPage);
+            } else if (category.equals(getString(R.string.now_playing_text))) {
+                viewModel.getNowPlayingMovies(currentPage);
+            } else if (category.equals(getString(R.string.up_coming_text))) {
+                viewModel.getUpcomingMovies(currentPage);
+            } else if (category.equals(getString(R.string.top_rated_text))) {
+                viewModel.getTopRatedMovies(currentPage);
+            }
+            setObserver();
+        } else {
+            Toast.makeText(this, getString(R.string.no_network_text), Toast.LENGTH_SHORT).show();
         }
-
-        setObserver();
     }
 
     @Override
@@ -165,6 +171,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
                 }
             }
         };
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override
