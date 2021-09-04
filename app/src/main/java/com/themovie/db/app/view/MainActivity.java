@@ -172,10 +172,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
                         if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                                 && firstVisibleItemPosition >= 0
                                 && totalItemCount > PAGE_SIZE) {
-                            if (totalPages > currentPage) {
-                                currentPage++;
-                                mIsLoading = true;
-                                getMovieList();
+                            if (isNetworkAvailable()) {
+                                if (totalPages > currentPage) {
+                                    currentPage++;
+                                    mIsLoading = true;
+                                    getMovieList();
+                                }
                             }
                         }
                     }
